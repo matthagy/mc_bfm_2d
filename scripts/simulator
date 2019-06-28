@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd `dirname $0`
+
+java -Xmx1g -cp ../target/mc_bfm_2d-1.0-SNAPSHOT-jar-with-dependencies.jar \
+ com.matthagy.mc_bfm_2d.simulation.Simulator $*
