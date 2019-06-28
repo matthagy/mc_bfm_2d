@@ -10,6 +10,14 @@ public class Bond {
         this.b = b;
     }
 
+    public Monomer getA() {
+        return a;
+    }
+
+    public Monomer getB() {
+        return b;
+    }
+
     public Monomer other(Monomer m) {
         if (m == a) {
             return b;

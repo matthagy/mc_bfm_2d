@@ -33,8 +33,7 @@ public class Vector {
     }
 
     public void addTo(Vector v) {
-        x += v.x;
-        y += v.y;
+        set(x + v.x, y + v.y);
     }
 
     public Vector add(Vector v) {

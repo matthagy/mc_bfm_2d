@@ -1,5 +1,8 @@
 package com.matthagy.mc_bfm_2d.state;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,5 +40,32 @@ public class Configuration {
 
     public void addOcclusion(Occlusion occlusion) {
         grid.addOccupier(occlusion);
+    }
+
+    public static Configuration fromJson(JSONObject obj) {
+        int width = ((Number) obj.get("width")).intValue();
+        int height = ((Number) obj.get("height")).intValue();
+        Configuration configuration = new Configuration(width, height);
+
+        JSONArray polymersJson = (JSONArray) obj.get("polymers");
+        for (Object polymerJson : polymersJson) {
+            Polymer polymer = Polymer.fromJson((JSONObject) polymerJson);
+            configuration.addPolymer(polymer);
+        }
+
+        return configuration;
+    }
+
+    public JSONObject toJson() {
+        JSONObject obj = new JSONObject();
+        obj.put("width", grid.getWidth());
+        obj.put("height", grid.getHeight());
+
+        JSONArray polymersJson = new JSONArray();
+        for (Polymer polymer : polymers) {
+            polymersJson.add(polymer.toJson());
+        }
+        obj.put("polymers", polymersJson);
+        return obj;
     }
 }

@@ -29,7 +29,11 @@ public class VectorList implements Iterable<Vector> {
     }
 
     public VectorList copy() {
-        return new VectorList(Lists.transform(vectors, Vector::copy));
+        final List<Vector> copies = new ArrayList<>();
+        for (Vector vector : vectors) {
+            copies.add(vector.copy());
+        }
+        return new VectorList(copies);
     }
 
     public VectorList add(Vector v) {
@@ -41,5 +45,12 @@ public class VectorList implements Iterable<Vector> {
     @Override
     public Iterator<Vector> iterator() {
         return vectors.iterator();
+    }
+
+    @Override
+    public String toString() {
+        return "VectorList{" +
+                "vectors=" + vectors +
+                '}';
     }
 }
