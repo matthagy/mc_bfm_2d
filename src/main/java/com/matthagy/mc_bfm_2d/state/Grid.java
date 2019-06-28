@@ -40,7 +40,7 @@ public class Grid {
 
     private int coordinateToIndex(int x, int y) {
         // apply periodic boundaries
-        if (x > width) {
+        if (x >= width) {
             x -= width;
         } else if (x < 0) {
             x += width;
@@ -55,7 +55,7 @@ public class Grid {
 
     public Vector periodize(Vector v) {
         int x = v.getX();
-        if (x > width) {
+        if (x >= width) {
             x -= width;
         } else if (x < 0) {
             x += width;

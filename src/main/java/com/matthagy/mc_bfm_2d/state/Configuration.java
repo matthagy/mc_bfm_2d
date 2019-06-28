@@ -40,6 +40,7 @@ public class Configuration {
 
     public void addOcclusion(Occlusion occlusion) {
         grid.addOccupier(occlusion);
+        occlusions.add(occlusion);
     }
 
     public static Configuration fromJson(JSONObject obj) {
@@ -49,8 +50,12 @@ public class Configuration {
 
         JSONArray polymersJson = (JSONArray) obj.get("polymers");
         for (Object polymerJson : polymersJson) {
-            Polymer polymer = Polymer.fromJson((JSONObject) polymerJson);
-            configuration.addPolymer(polymer);
+            configuration.addPolymer(Polymer.fromJson((JSONObject) polymerJson));
+        }
+
+        JSONArray occlusionsJson = (JSONArray) obj.get("occlusions");
+        for (Object occlusionJson : occlusionsJson) {
+            configuration.addOcclusion(Occlusion.fromJson((JSONObject) occlusionJson));
         }
 
         return configuration;
@@ -66,6 +71,13 @@ public class Configuration {
             polymersJson.add(polymer.toJson());
         }
         obj.put("polymers", polymersJson);
+
+        JSONArray occlusionsJson = new JSONArray();
+        for (Occlusion occlusion : occlusions) {
+            occlusionsJson.add(occlusion.toJson());
+        }
+        obj.put("occlusions", occlusionsJson);
+
         return obj;
     }
 }

@@ -48,20 +48,37 @@ class Polymer:
         return cls(indexed_monomers.values())
 
 
+class Occlusion:
+    def __init__(self, sites):
+        sites = np.asarray(sites, dtype=int)
+        assert len(sites.shape) == 2
+        self.sites = sites
+
+    def to_json(self):
+        return {'sites': [list(map(int, site)) for site in self.sites]}
+
+    @classmethod
+    def from_json(cls, obj: dict):
+        return cls(obj['sites'])
+
+
 class Configuration:
-    def __init__(self, width, height, polymers=(), steps=None):
+    def __init__(self, width, height, polymers=(), occlusions=(), steps=None):
         self.width = width
         self.height = height
         self.polymers = list(polymers)
+        self.occlusions = list(occlusions)
         self.steps = steps
 
     def to_json(self):
         return {'width': self.width,
                 'height': self.height,
-                'polymers': [p.to_json() for p in self.polymers]}
+                'polymers': [p.to_json() for p in self.polymers],
+                'occlusions': [o.to_json() for o in self.occlusions]}
 
     @classmethod
     def from_json(cls, obj: dict):
         return cls(width=obj['width'], height=obj['height'],
                    polymers=[Polymer.from_json(p) for p in obj['polymers']],
+                   occlusions=[Occlusion.from_json(o) for o in obj['occlusions']],
                    steps=obj.get('steps', None))
