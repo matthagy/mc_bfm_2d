@@ -18,6 +18,9 @@ class Monomer:
     def get_occupation_sites(self):
         return self.OFFSETS + self.lower_right_occupancy
 
+    def get_center_of_mass(self):
+        return self.lower_right_occupancy + 0.5
+
 
 class Bond:
     def __init__(self, a: Monomer, b: Monomer):
@@ -30,6 +33,12 @@ class Bond:
 class Polymer:
     def __init__(self, monomers=()):
         self.monomers = list(monomers)
+
+    def get_monomer_center_of_masses(self):
+        return np.array([m.get_center_of_mass() for m in self.monomers])
+
+    def get_center_of_mass(self):
+        return self.get_monomer_center_of_masses().mean(axis=0)
 
     def to_json(self):
         monomer_locations = [(i, list(map(int, monomer.lower_right_occupancy)))
